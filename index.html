@@ -269,39 +269,8 @@
     setupSortable();
     render();
 
-   // 先ほどコピーしたGASのウェブアプリURLをここに貼り付けてください
-    const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbz5n-bfoAxOC84giWIgVJGI8z2spY1lExemBNGBc_dW3TJdoDKLNhZu_a34ICivNImrWw/exec";
-
     function saveData() {
-        // 1. ローカルストレージへの保存（これまでの機能も維持）
         localStorage.setItem('timeTrackerProjects', JSON.stringify(projects));
-        
-        // 2. Googleスプレッドシート（GAS）への同期送信
-        if (GAS_WEBAPP_URL === "ここにコピーしたGASのウェブアプリURLを貼り付け") {
-            console.warn("GASのURLが設定されていないため、スプレッドシートへの同期をスキップしました。");
-            return;
-        }
-
-        // データの変更が即座に反映されるよう、非同期でGASに非ブロッキング送信
-        fetch(GAS_WEBAPP_URL, {
-            method: "POST",
-            mode: "cors", // クロスドメイン通信を許可
-            headers: {
-                "Content-Type": "text/plain" // GASの仕様上、実質text/plainで送るのが安全です
-            },
-            body: JSON.stringify({ projects: projects })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success") {
-                console.log("Googleスプレッドシートへの同期が成功しました。");
-            } else {
-                console.error("GAS側エラー:", data.message);
-            }
-        })
-        .catch(error => {
-            console.error("通信エラー: スプレッドシートへの同期に失敗しました。", error);
-        });
     }
 
     function toggleViewMode() {
